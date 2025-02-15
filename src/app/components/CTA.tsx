@@ -8,7 +8,7 @@ const CTA = () => {
             </p>
             <ul className="text-lg mt-6 space-y-2 text-left mx-auto max-w-xl">
                 <li> <strong>Scientifically Designed:</strong> Based on real IQ assessment models.</li>
-                <li> <strong>Completely Free:</strong> No hidden costs or paid upgrades.</li>
+
             </ul>
             <a href="/test" className="mt-6 inline-block px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-200 font-bold">
                 Start Your Free IQ Test
