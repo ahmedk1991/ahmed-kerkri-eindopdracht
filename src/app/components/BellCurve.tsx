@@ -7,36 +7,28 @@ interface BellCurveProps {
 }
 
 export default function BellCurve({ iqScore }: BellCurveProps) {
+    const mean = 100;
+    const stdDev = 15;
 
-    const iqDistribution = [
-        { iq: 55, frequency: 2 },
-        { iq: 60, frequency: 4 },
-        { iq: 65, frequency: 8 },
-        { iq: 70, frequency: 15 },
-        { iq: 75, frequency: 25 },
-        { iq: 80, frequency: 35 },
-        { iq: 85, frequency: 45 },
-        { iq: 90, frequency: 55 },
-        { iq: 95, frequency: 60 },
-        { iq: 100, frequency: 65 },
-        { iq: 105, frequency: 60 },
-        { iq: 110, frequency: 55 },
-        { iq: 115, frequency: 45 },
-        { iq: 120, frequency: 35 },
-        { iq: 125, frequency: 25 },
-        { iq: 130, frequency: 15 },
-        { iq: 135, frequency: 8 },
-        { iq: 140, frequency: 4 },
-        { iq: 145, frequency: 2 },
-    ];
+    const generateBellCurve = () => {
+        let data = [];
+        for (let i = 55; i <= 145; i += 1) {
+            let exponent = -0.5 * Math.pow((i - mean) / stdDev, 2);
+            let y = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(exponent) * 10000;
+            data.push({ iq: i, frequency: y });
+        }
+        return data;
+    };
+
+    const iqDistribution = generateBellCurve();
 
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={iqDistribution} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+            <LineChart data={iqDistribution} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
                 <XAxis dataKey="iq" domain={[55, 145]} tick={{ fontSize: 14, fill: "#333" }} />
                 <YAxis hide />
                 <Tooltip />
-                <Line type="monotone" dataKey="frequency" stroke="#4A90E2" strokeWidth={3} />
+                <Line type="monotone" dataKey="frequency" stroke="#4A90E2" strokeWidth={3} dot={false} />
                 <ReferenceLine x={iqScore} stroke="red" strokeWidth={3} label={{ value: `Your IQ: ${iqScore}`, position: "top", fill: "red" }} />
             </LineChart>
         </ResponsiveContainer>
