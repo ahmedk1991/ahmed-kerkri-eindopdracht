@@ -6,6 +6,8 @@ import Hero from "@/app/components/Hero";
 import FeatureCard from "@/app/components/FeatureCard";
 
 import Footer from "@/app/components/Footer";
+import {Cabin} from "next/dist/compiled/@next/font/dist/google";
+import CTA from "@/app/components/CTA";
 
 
 export default function Home() {
@@ -24,7 +26,7 @@ export default function Home() {
               <FeatureCard title="Instant Results" description="Get your score immediately and detailed analysis immediately after completion." icon={<FaChartLine />} />
               <FeatureCard title="Certified Test" description="Professionally designed and validated by expert psychologists"icon={<FaBrain />} />
           </section>
-
+         <CTA/>
         <Footer />
       </div>
   );
