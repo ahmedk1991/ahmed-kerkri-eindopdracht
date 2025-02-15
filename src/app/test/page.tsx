@@ -56,7 +56,7 @@ export default function TestPage() {
         if (currentQuestion < questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
             setSelectedAnswer(null);
-            setTimeLeft(15);
+            setTimeLeft(30);
         } else {
             localStorage.setItem("testResults", JSON.stringify(answers));
             router.push("/results");
