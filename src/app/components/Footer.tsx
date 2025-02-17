@@ -9,7 +9,7 @@ const Footer = () => {
                         <FaBrain />
                         <span>IQ Master</span>
                     </h3>
-                    <p className="text-lg my-2.5">Discover and unlock your true <br/>
+                    <p className="text-lg my-2.5 m-3">Discover and unlock your true <br/>
                         intellectual potential with our certified <br/>
                         IQ tests.</p>
                 </div>
