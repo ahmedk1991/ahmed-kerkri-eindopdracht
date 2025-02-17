@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import BellCurve from "@/app/components/BellCurve";
 import {FaFacebook, FaTwitter, FaLinkedin, FaRedo} from "react-icons/fa";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 interface Result {
     question: string;
@@ -89,7 +90,7 @@ export default function ResultsPage() {
                 </div>
 
 
-                <div className="flex items-center gap-4 mt-8">
+                <div className="flex items-center gap-4 mt-8 m-2">
                     <button
                         onClick={() => router.push("/test")}
                         className="mt-6 px-6 py-3 flex items-center gap-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -103,6 +104,7 @@ export default function ResultsPage() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 }
