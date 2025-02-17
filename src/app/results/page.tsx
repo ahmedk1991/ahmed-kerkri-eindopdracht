@@ -90,7 +90,7 @@ export default function ResultsPage() {
                 </div>
 
 
-                <div className="flex items-center gap-4 mt-8 m-2">
+                <div className="flex items-center gap-4 mt-8 m-5">
                     <button
                         onClick={() => router.push("/test")}
                         className="mt-6 px-6 py-3 flex items-center gap-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
