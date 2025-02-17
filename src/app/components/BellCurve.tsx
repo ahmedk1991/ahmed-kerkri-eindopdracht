@@ -11,14 +11,15 @@ export default function BellCurve({ iqScore }: BellCurveProps) {
     const stdDev = 15;
 
     const generateBellCurve = () => {
-        let data = [];
+        const data = [];
         for (let i = 55; i <= 145; i += 1) {
-            let exponent = -0.5 * Math.pow((i - mean) / stdDev, 2);
-            let y = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(exponent) * 10000;
+            const exponent = -0.5 * Math.pow((i - mean) / stdDev, 2);
+            const y = (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(exponent) * 10000;
             data.push({ iq: i, frequency: y });
         }
         return data;
     };
+
 
     const iqDistribution = generateBellCurve();
 
