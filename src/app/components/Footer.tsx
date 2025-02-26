@@ -2,14 +2,14 @@ import { FaBrain, FaFacebook, FaInstagram, FaLinkedinIn, FaTwitter } from "react
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white py-10 mt-auto">
+        <footer className="bg-gray-800 text-white py-10 mt-auto ">
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 className="text-lg font-semibold flex items-center space-x-2">
+                    <h3 className="text-lg font-semibold flex items-center space-x-2 m-3">
                         <FaBrain />
                         <span>IQ Master</span>
                     </h3>
-                    <p className="text-lg my-2.5">Discover and unlock your true <br/>
+                    <p className="text-lg my-2.5 m-3">Discover and unlock your true <br/>
                         intellectual potential with our certified <br/>
                         IQ tests.</p>
                 </div>

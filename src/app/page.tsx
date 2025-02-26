@@ -4,9 +4,7 @@ import { FaBrain, FaChartLine, FaClock } from "react-icons/fa";
 import Header from "@/app/components/Header";
 import Hero from "@/app/components/Hero";
 import FeatureCard from "@/app/components/FeatureCard";
-
 import Footer from "@/app/components/Footer";
-import {Cabin} from "next/dist/compiled/@next/font/dist/google";
 import CTA from "@/app/components/CTA";
 
 
