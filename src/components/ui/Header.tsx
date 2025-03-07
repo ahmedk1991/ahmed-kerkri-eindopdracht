@@ -23,6 +23,9 @@ const Header = () => {
                     <Link href="/login" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                         Login
                     </Link>
+                    <Link href="/register" className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        Registration
+                    </Link>
                 </nav>
             </div>
         </header>

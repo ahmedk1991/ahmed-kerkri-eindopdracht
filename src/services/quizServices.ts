@@ -27,17 +27,17 @@ export const questions = [
 ];
 
 
-// Get All Quiz Questions
+
 export const getAllQuizQuestions = async () => {
     return await db.select().from(quiztest);
 };
 
-// Add New Quiz Question
+
 export const addQuizQuestion = async (newQuestion) => {
     await db.insert(quiztest).values(newQuestion);
 };
 
-// Seed Questions (Run Once)
+
 export const seedQuestions = async () => {
     for (const question of questions) {
         await db.insert(quiztest).values({

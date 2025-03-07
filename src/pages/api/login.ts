@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const user = await db.select().from(users).where(eq(users.email, email)).first();
+
+        const [user] = await db.select().from(users).where(eq(users.email, email));
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -27,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!isValidPassword) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-
 
         res.setHeader(
             "Set-Cookie",

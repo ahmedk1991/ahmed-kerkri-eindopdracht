@@ -4,7 +4,8 @@ export default {
     schema: "./src/db/schema.ts",
     out: "./src/db/migrations",
     dialect: "postgresql",
+    driver: "d1-http",
     dbCredentials: {
-        url: process.env.DATABASE_URL ?? "",
+        connectionString: process.env.NEXT_PUBLIC_DATABASE_URL ?? "",
     },
 } satisfies Config;
