@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ProgressBar } from "@/app/components/progressbar";
+
 import { useRouter } from "next/navigation";
 import {questions} from "@/services/quizServices";
+import {ProgressBar} from "@/components/ui/progressbar";
 
 
 

@@ -3,12 +3,12 @@ import {users} from "@/db/schema";
 
 
 export const getAllUsers = async () => {
-    return await db.select().from(users);
+    return db.select().from(users);
 };
 
 
 export const getUserById = async (id: string) => {
-    return await db.select().from(users).where(users.id.eq(id));
+    return db.select().from(users).where(users.id.eq(id));
 };
 
 

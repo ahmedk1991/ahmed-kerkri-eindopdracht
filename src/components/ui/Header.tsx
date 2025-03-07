@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {FaBrain} from "react-icons/fa";
+import { FaBrain } from "react-icons/fa";
 
 const Header = () => {
     return (
@@ -17,10 +17,10 @@ const Header = () => {
                     <Link href="/about" className="text-gray-700 hover:text-blue-600">
                         About
                     </Link>
-                    <Link href="/about" className="text-gray-700 hover:text-blue-600">
+                    <Link href="/contact" className="text-gray-700 hover:text-blue-600">
                         Contact
                     </Link>
-                    <Link href="/Login" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <Link href="/login" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                         Login
                     </Link>
                 </nav>
@@ -30,3 +30,4 @@ const Header = () => {
 };
 
 export default Header;
+
