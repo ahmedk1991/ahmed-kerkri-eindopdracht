@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -30,6 +32,8 @@ export default function RegisterPage() {
     };
 
     return (
+        <>
+        <Header />
         <div className="min-h-screen flex items-center justify-center">
             <form onSubmit={handleRegister} className="bg-white p-6 rounded-md shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Registreren</h2>
@@ -66,5 +70,7 @@ export default function RegisterPage() {
                 </button>
             </form>
         </div>
+            <Footer/>
+        </>
     );
 }

@@ -1,7 +1,5 @@
 "use client";
-
 import { useState, useEffect } from "react";
-
 import { useRouter } from "next/navigation";
 import {questions} from "@/services/quizServices";
 import {ProgressBar} from "@/components/ui/progressbar";

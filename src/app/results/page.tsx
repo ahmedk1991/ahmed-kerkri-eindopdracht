@@ -2,10 +2,12 @@
 
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
-import BellCurve from "@/app/components/BellCurve";
+
 import {FaFacebook, FaTwitter, FaLinkedin, FaRedo} from "react-icons/fa";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
+import BellCurve from "@/components/ui/BellCurve";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
+
 
 interface Result {
     question: string;
