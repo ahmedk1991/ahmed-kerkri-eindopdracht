@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/ui/Footer";
+import Header from "@/components/ui/Header";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -27,13 +29,15 @@ export default function LoginPage() {
                 return;
             }
 
-            router.push("/test");
+            router.push("/");
         } catch (err) {
             setError("Failed to login. Please try again.");
         }
     };
 
     return (
+        <>
+            <Header/>
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md bg-white shadow-md rounded-md p-6">
                 <h2 className="text-2xl font-bold mb-4">Login</h2>
@@ -68,5 +72,7 @@ export default function LoginPage() {
                 </form>
             </div>
         </div>
+            <Footer/>
+        </>
     );
 }

@@ -19,3 +19,10 @@ export const quiztest = pgTable("quiztest", {
     isActive: boolean().default(true),
     createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 });
+export const testResults = pgTable("test_results", {
+    id: uuid().primaryKey().defaultRandom(),
+    user_id: uuid().notNull(),
+    results: jsonb().notNull(),
+    score: varchar({ length: 10 }).notNull(),
+    createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+});
