@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "@/db";
+
 import { users } from "@/db/schema";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
+import {db} from "@/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
