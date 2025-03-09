@@ -1,15 +1,20 @@
 "use client";
+
 import Head from "next/head";
-import { FaBrain, FaChartLine, FaClock } from "react-icons/fa";
 import Header from "@/components/ui/Header";
 import Hero from "@/components/ui/Hero";
 import FeatureCard from "@/components/ui/FeatureCard";
 import CTA from "@/components/ui/CTA";
 import Footer from "@/components/ui/Footer";
+
+import { FaBrain, FaChartLine, FaClock } from "react-icons/fa";
+
+import React from "react";
 import useAuth from "@/hooks/useAuth";
 
 export default function Home() {
     const { isLoggedIn, logout } = useAuth();
+    console.log("isLoggedIn", isLoggedIn);
 
     return (
         <div>
@@ -40,17 +45,6 @@ export default function Home() {
             </section>
 
             <CTA />
-
-            {isLoggedIn && (
-                <div className="flex justify-center py-6">
-                    <button
-                        onClick={logout}
-                        className="px-6 py-2 bg-red-500 text-white rounded-md"
-                    >
-                        Logout
-                    </button>
-                </div>
-            )}
 
             <Footer />
         </div>

@@ -28,7 +28,7 @@ export default function TestDetailPage() {
 
     useEffect(() => {
         async function fetchTestDetail() {
-            const res = await fetch(`/api/test-results/${id}`);
+            const res = await fetch(`/api/review/${id}`);
             if (res.ok) {
                 const data = await res.json();
                 setTestDetail(data.test);

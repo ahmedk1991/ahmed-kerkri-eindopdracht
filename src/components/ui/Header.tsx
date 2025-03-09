@@ -2,13 +2,10 @@
 
 import Link from "next/link";
 import { FaBrain } from "react-icons/fa";
-import { useSession, signOut } from "next-auth/react";
+import useAuth from "@/hooks/useAuth";
 
 const Header = () => {
-    const { data: session } = useSession();
-
-
-    console.log("Session in Header:", session);
+    const { isLoggedIn, logout } = useAuth();
 
     return (
         <header className="bg-white shadow-md">
@@ -27,16 +24,16 @@ const Header = () => {
                     <Link href="/contact" className="text-gray-700 hover:text-blue-600">
                         Contact
                     </Link>
-                    {session ? (
+                    {isLoggedIn ? (
                         <>
                             <Link
                                 href="/review"
-                                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                             >
                                 Review Tests
                             </Link>
                             <button
-                                onClick={() => signOut()}
+                                onClick={logout}
                                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                             >
                                 Logout

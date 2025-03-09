@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -13,7 +13,6 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError("");
 
         try {
             const response = await fetch("/api/login", {
@@ -22,14 +21,17 @@ export default function LoginPage() {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await response.json();
+            if (response.ok) {
+                const data = await response.json();
 
-            if (!response.ok) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                console.log(localStorage.getItem("user"));
+
+                router.push("/");
+            } else {
+                const data = await response.json();
                 setError(data.message || "An error occurred");
-                return;
             }
-
-            router.push("/");
         } catch (err) {
             setError("Failed to login. Please try again.");
         }
@@ -37,42 +39,42 @@ export default function LoginPage() {
 
     return (
         <>
-            <Header/>
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white shadow-md rounded-md p-6">
-                <h2 className="text-2xl font-bold mb-4">Login</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-                    >
-                        Login
-                    </button>
-                </form>
+            <Header />
+            <div className="flex flex-col items-center justify-center bg-gray-100 py-10 min-h-[60vh]">
+                <div className="w-full max-w-sm bg-white shadow rounded p-6">
+                    <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        {error && <div className="text-red-500 text-xs text-center">{error}</div>}
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                        >
+                            Login
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }

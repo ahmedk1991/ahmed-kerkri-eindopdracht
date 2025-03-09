@@ -1,3 +1,4 @@
+// /src/pages/api/login.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "@/db";
 import { users } from "@/db/schema";
@@ -16,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-
         const [user] = await db.select().from(users).where(eq(users.email, email));
 
         if (!user) {
@@ -31,12 +31,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.setHeader(
             "Set-Cookie",
-            `user=${JSON.stringify({ id: user.id, name: user.username })}; Path=/; HttpOnly`
+            `auth=${user.id}; Path=/; Max-Age=86400; HttpOnly; SameSite=Lax`
         );
 
-        return res.status(200).json({ message: "Login successful" });
+        return res.status(200).json({ message: "Login successful", user: { id: user.id, name: user.username } });
     } catch (error) {
-        console.error(error);
+        console.error("Login Error:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
 }
