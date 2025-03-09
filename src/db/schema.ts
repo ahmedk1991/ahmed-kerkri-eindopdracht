@@ -21,8 +21,8 @@ export const quiztest = pgTable("quiztest", {
 });
 export const testResults = pgTable("test_results", {
     id: uuid().primaryKey().defaultRandom(),
-    user_id: uuid().notNull(),
+    user_id: uuid().notNull().references(() => users.id),
     results: jsonb().notNull(),
-    score: varchar({ length: 10 }).notNull(),
+    score: varchar({ length: 100 }).notNull(),
     createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 });

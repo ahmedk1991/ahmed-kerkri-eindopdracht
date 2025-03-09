@@ -1,0 +1,2 @@
+ALTER TABLE "test_results" ALTER COLUMN "score" SET DATA TYPE varchar(100);--> statement-breakpoint
+ALTER TABLE "test_results" ADD CONSTRAINT "test_results_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;

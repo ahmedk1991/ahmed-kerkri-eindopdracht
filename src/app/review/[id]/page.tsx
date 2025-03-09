@@ -10,7 +10,6 @@ interface QuestionResult {
     question: string;
     selected: string | null;
     correct: string;
-    explanation?: string;
 }
 
 interface TestDetail {
@@ -28,12 +27,16 @@ export default function TestDetailPage() {
 
     useEffect(() => {
         async function fetchTestDetail() {
-            const res = await fetch(`/api/review/${id}`);
-            if (res.ok) {
-                const data = await res.json();
-                setTestDetail(data.test);
-            } else {
-                console.error("Failed to fetch test detail");
+            try {
+                const res = await fetch(`/api/review/${id}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setTestDetail(data.test);
+                } else {
+                    console.error("Failed to fetch test detail");
+                }
+            } catch (error) {
+                console.error("Error during fetchTestDetail:", error);
             }
         }
         fetchTestDetail();
@@ -85,11 +88,6 @@ export default function TestDetailPage() {
                                 <p className="mb-2">
                                     <span className="font-semibold">Correct Answer:</span> {q.correct}
                                 </p>
-                                {!isCorrect && q.explanation && (
-                                    <p className="text-sm text-gray-700">
-                                        <span className="font-semibold">Hint:</span> {q.explanation}
-                                    </p>
-                                )}
                             </div>
                         );
                     })}

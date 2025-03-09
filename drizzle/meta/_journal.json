@@ -15,6 +15,13 @@
       "when": 1741401601881,
       "tag": "0001_kind_tomorrow_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741494240315,
+      "tag": "0002_careful_invisible_woman",
+      "breakpoints": true
     }
   ]
 }

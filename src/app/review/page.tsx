@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
+import Card from "@/components/ui/Card";
+
 
 interface TestSummary {
     id: string;
@@ -40,21 +42,22 @@ export default function TestHistoryPage() {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {tests.map((test) => (
-                            <div
-                                key={test.id}
-                                onClick={() => router.push(`/review/${test.id}`)}
-                                className="p-4 border rounded-md shadow-md hover:bg-blue-50 cursor-pointer"
-                            >
-                                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-500">
-                    {new Date(test.createdAt).toLocaleString()}
-                  </span>
-                                    <span className="font-bold text-blue-600">
-                    Score: {test.score}
-                  </span>
+                            <Card key={test.id}>
+                                <div className="flex flex-col items-center p-4">
+                                    <p className="text-sm text-gray-500">
+                                        {new Date(test.createdAt).toLocaleString()}
+                                    </p>
+                                    <span className="text-lg font-bold text-blue-600">
+                                        Score: {test.score}
+                                    </span>
+                                    <button
+                                        onClick={() => router.push(`/review/${test.id}`)}
+                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                                    >
+                                        View Details
+                                    </button>
                                 </div>
-                                <p className="text-lg font-semibold">Test ID: {test.id}</p>
-                            </div>
+                            </Card>
                         ))}
                     </div>
                 )}

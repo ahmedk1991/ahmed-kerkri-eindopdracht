@@ -10,11 +10,9 @@ import Footer from "@/components/ui/Footer";
 import { FaBrain, FaChartLine, FaClock } from "react-icons/fa";
 
 import React from "react";
-import useAuth from "@/hooks/useAuth";
 
 export default function Home() {
-    const { isLoggedIn, logout } = useAuth();
-    console.log("isLoggedIn", isLoggedIn);
+
 
     return (
         <div>

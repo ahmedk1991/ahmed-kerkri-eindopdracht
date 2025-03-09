@@ -46,19 +46,34 @@ export default function TestPage() {
         } else {
             const correctCount = updatedAnswers.filter((r) => r.selected === r.correct).length;
             const score = Math.round((correctCount / questions.length) * 100);
-            const response = await fetch("/api/test-results", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ results: updatedAnswers, score }),
-            });
-            if (response.ok) {
-                router.push("/results");
-            } else {
-                console.error("Failed to save test results");
+
+            console.log("Results to save:", updatedAnswers);
+            console.log("Score to save:", score);
+
+            try {
+                const response = await fetch("/api/test-results", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ results: updatedAnswers, score }),
+                });
+
+                console.log("API Response Status:", response.status);
+
+                if (response.ok) {
+                    router.push("/results");
+                } else {
+                    const errorData = await response.json();
+                    console.error("Failed to save test results:", errorData.message);
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
             }
         }
     };
+
 
     return (
         <div className="min-h-screen flex flex-col items-center px-4 relative">
