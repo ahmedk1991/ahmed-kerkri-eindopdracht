@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { questions } from "@/services/quizServices";
 import { ProgressBar } from "@/components/ui/progressbar";
@@ -16,20 +16,8 @@ export default function TestPage() {
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
 
-    useEffect(() => {
-        if (timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        } else {
-            handleNext();
-        }
-    }, [timeLeft]);
-
-    const handleAnswerClick = (answer: string) => {
-        setSelectedAnswer(answer);
-    };
-
-    const handleNext = async () => {
+    // Use useCallback to memoize handleNext function
+    const handleNext = useCallback(async () => {
         const newAnswer = {
             question: questions[currentQuestion].text,
             selected: selectedAnswer,
@@ -72,8 +60,20 @@ export default function TestPage() {
                 console.error("Fetch error:", error);
             }
         }
-    };
+    }, [currentQuestion, selectedAnswer, answers, router]);
 
+    useEffect(() => {
+        if (timeLeft > 0) {
+            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+            return () => clearTimeout(timer);
+        } else {
+            handleNext();
+        }
+    }, [timeLeft, handleNext]);
+
+    const handleAnswerClick = (answer: string) => {
+        setSelectedAnswer(answer);
+    };
 
     return (
         <div className="min-h-screen flex flex-col items-center px-4 relative">
