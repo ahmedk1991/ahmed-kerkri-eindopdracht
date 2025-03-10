@@ -16,7 +16,6 @@ export default function TestPage() {
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
 
-    // Use useCallback to memoize handleNext function
     const handleNext = useCallback(async () => {
         const newAnswer = {
             question: questions[currentQuestion].text,
