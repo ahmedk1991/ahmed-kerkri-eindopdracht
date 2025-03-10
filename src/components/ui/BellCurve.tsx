@@ -27,7 +27,7 @@ export default function BellCurve({ iqScore }: BellCurveProps) {
         <ResponsiveContainer width="100%" height={300}>
             <LineChart data={iqDistribution} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
                 <XAxis dataKey="iq" domain={[55, 145]} tick={{ fontSize: 14, fill: "#333" }}/>
-                <YAxis tick={{ fontSize: 14, fill: "#333" }} />
+                <YAxis hide />
                 <Tooltip />
                 <Line type="monotone" dataKey="frequency" stroke="#4A90E2" strokeWidth={3} dot={false} />
                 <ReferenceLine x={iqScore} stroke="red" strokeWidth={3} label={{ value: `Your IQ: ${iqScore}`, position: "top", fill: "red" }} />

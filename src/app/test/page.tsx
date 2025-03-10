@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaRedo } from "react-icons/fa";
+
 import { questions } from "@/services/quizServices";
 import { ProgressBar } from "@/components/ui/progressbar";
 
@@ -32,7 +34,12 @@ export default function TestPage() {
             setTimeLeft(30);
         } else {
             const correctCount = updatedAnswers.filter((r) => r.selected === r.correct).length;
-            const score = Math.round((correctCount / questions.length) * 100);
+            const totalQuestions = questions.length;
+
+            let score = 0;
+            if (totalQuestions > 0) {
+                score = Math.round((correctCount / totalQuestions) * 100);
+            }
 
             console.log("Results to save:", updatedAnswers);
             console.log("Score to save:", score);
@@ -50,6 +57,7 @@ export default function TestPage() {
                 console.log("API Response Status:", response.status);
 
                 if (response.ok) {
+                    localStorage.setItem("testResults", JSON.stringify(updatedAnswers));
                     router.push("/results");
                 } else {
                     const errorData = await response.json();
@@ -62,18 +70,12 @@ export default function TestPage() {
     };
 
     useEffect(() => {
-        const handleTimeout = async () => {
-            if (timeLeft > 0) {
-                const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-                return () => clearTimeout(timer);
-            } else {
-                await handleNext();
-            }
-        };
-
-        handleTimeout().catch((error) => {
-            console.error("Error in handleTimeout:", error);
-        });
+        if (timeLeft > 0) {
+            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+            return () => clearTimeout(timer);
+        } else {
+            handleNext();
+        }
     }, [timeLeft]);
 
     const handleAnswerClick = (answer: string) => {
