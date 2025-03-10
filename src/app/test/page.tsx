@@ -68,7 +68,8 @@ export default function TestPage() {
         } else {
             handleNext();
         }
-    }, [timeLeft, handleNext]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeLeft]);
 
     const handleAnswerClick = (answer: string) => {
         setSelectedAnswer(answer);

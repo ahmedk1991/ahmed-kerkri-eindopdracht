@@ -32,7 +32,8 @@ export default function LoginPage() {
                 const data = await response.json();
                 setError(data.message || "An error occurred");
             }
-        } catch (_err){
+        } catch (err){
+            console.error("Login error:", err);
             setError("Failed to login. Please try again.");
         }
     };
