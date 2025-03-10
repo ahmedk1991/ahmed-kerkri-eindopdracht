@@ -16,7 +16,7 @@ export default function TestPage() {
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
 
-    const handleNext = useCallback(async () => {
+    const handleNext: () => Promise<void> = useCallback(async () => {
         const newAnswer = {
             question: questions[currentQuestion].text,
             selected: selectedAnswer,
@@ -62,14 +62,20 @@ export default function TestPage() {
     }, [currentQuestion, selectedAnswer, answers, router]);
 
     useEffect(() => {
-        if (timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        } else {
-            handleNext();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeLeft]);
+        const handleTimeout = async () => {
+            if (timeLeft > 0) {
+                const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+                return () => clearTimeout(timer);
+            } else {
+                await handleNext();
+            }
+        };
+
+        handleTimeout().catch((error) => {
+            console.error("Error in handleTimeout:", error);
+        });
+    }, [timeLeft, handleNext]);
+
 
     const handleAnswerClick = (answer: string) => {
         setSelectedAnswer(answer);
