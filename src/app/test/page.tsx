@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { questions } from "@/services/quizServices";
 import { ProgressBar } from "@/components/ui/progressbar";
@@ -16,7 +16,7 @@ export default function TestPage() {
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
 
-    const handleNext: () => Promise<void> = useCallback(async () => {
+    const handleNext = async () => {
         const newAnswer = {
             question: questions[currentQuestion].text,
             selected: selectedAnswer,
@@ -59,7 +59,7 @@ export default function TestPage() {
                 console.error("Fetch error:", error);
             }
         }
-    }, [currentQuestion, selectedAnswer, answers, router]);
+    };
 
     useEffect(() => {
         const handleTimeout = async () => {
@@ -74,8 +74,7 @@ export default function TestPage() {
         handleTimeout().catch((error) => {
             console.error("Error in handleTimeout:", error);
         });
-    }, [timeLeft, handleNext]);
-
+    }, [timeLeft]);
 
     const handleAnswerClick = (answer: string) => {
         setSelectedAnswer(answer);
