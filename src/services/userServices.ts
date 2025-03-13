@@ -1,27 +1,28 @@
-import {db} from "@/db";
-import {users} from "@/db/schema";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
-
+// ✅ Get all users
 export const getAllUsers = async () => {
-    await db.select().from(users);
+    return db.select().from(users);
 };
-
 
 export const getUserById = async (id: string) => {
-    await db.select().from(users).where(users.id.eq(id));
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user ?? null;
 };
 
 
-export const addUser = async (newUser) => {
-    await db.insert(users).values(newUser);
+export const addUser = async (newUser: { username: string; email: string; password: string }) => {
+    return db.insert(users).values(newUser).returning();
 };
 
 
-export const updateUser = async (id: string, updatedUser) => {
-    await db.update(users).set(updatedUser).where(users.id.eq(id));
+export const updateUser = async (id: string, updatedUser: Partial<{ username: string; email: string; password: string }>) => {
+    return db.update(users).set(updatedUser).where(eq(users.id, id)).returning();
 };
 
 
 export const deleteUser = async (id: string) => {
-    await db.delete(users).where(users.id.eq(id));
+    return db.delete(users).where(eq(users.id, id)).returning();
 };
