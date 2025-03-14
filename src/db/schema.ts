@@ -11,14 +11,18 @@ export const users = pgTable("users", {
 });
 
 
+
 export const quiztest = pgTable("quiztest", {
     id: uuid().primaryKey().defaultRandom(),
+    category: varchar({ length: 100 }).notNull(),
     text: varchar({ length: 255 }).notNull(),
     options: jsonb().notNull(),
     correctAnswer: varchar({ length: 100 }).notNull(),
     isActive: boolean().default(true),
     createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 });
+
+
 export const testResults = pgTable("test_results", {
     id: uuid().primaryKey().defaultRandom(),
     user_id: uuid().notNull().references(() => users.id),

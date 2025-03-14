@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
+import useAuth from "@/hooks/useAuth";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { login } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -15,26 +17,11 @@ export default function LoginPage() {
         e.preventDefault();
 
         try {
-            const response = await fetch("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-
-                localStorage.setItem("user", JSON.stringify(data.user));
-                console.log(localStorage.getItem("user"));
-
-                router.push("/");
-            } else {
-                const data = await response.json();
-                setError(data.message || "An error occurred");
-            }
-        } catch (err){
+            await login(email, password);
+            router.push("/");
+        } catch (err) {
             console.error("Login error:", err);
-            setError("Failed to login. Please try again.");
+            setError("Invalid email or password");
         }
     };
 

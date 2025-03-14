@@ -1,37 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from "next-auth/jwt";
 import { db } from "@/db";
 import { testResults } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const userId = req.cookies.auth;
+    try {
+        const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    console.log("Cookies in request:", req.cookies);
-    console.log("User ID from cookie:", userId);
-
-    if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    if (req.method === "POST") {
-        try {
-            const { results, score } = req.body;
-
-            if (!results || score === undefined) {
-                return res.status(400).json({ message: "Results and score are required" });
-            }
-
-            await db.insert(testResults).values({
-                user_id: userId,
-                results,
-                score: String(score),
-            });
-
-            return res.status(201).json({ message: "Test results saved" });
-        } catch (error) {
-            console.error("Error saving test results:", error);
-            return res.status(500).json({ message: "Internal server error" });
+        if (!token?.sub) {
+            return res.status(401).json({ message: "Unauthorized" });
         }
-    }
 
-    return res.status(405).json({ message: `Method ${req.method} not allowed` });
+        const results = await db
+            .select()
+            .from(testResults)
+            .where(eq(testResults.user_id, token.sub));
+
+        return res.status(200).json({ tests: results });
+    } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 }

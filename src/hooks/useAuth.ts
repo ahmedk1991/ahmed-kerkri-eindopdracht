@@ -6,31 +6,44 @@ export default function useAuth() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const user = localStorage.getItem("user");
-        console.log("Raw User from localStorage:", user);
-
-        if (user && user !== "undefined" && user !== "null") {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
             try {
-                const parsedUser = JSON.parse(user);
-                console.log("Parsed User:", parsedUser);
-
-                setIsLoggedIn(Boolean(parsedUser?.id));
+                const user = JSON.parse(storedUser);
+                setIsLoggedIn(!!user.id);
             } catch (error) {
                 console.error("Failed to parse user data:", error);
                 setIsLoggedIn(false);
             }
-        } else {
-            console.warn("No valid user data found in localStorage.");
-            setIsLoggedIn(false);
         }
     }, []);
 
-    const logout = async () => {
-        await fetch("/api/logout", { method: "POST" });
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Invalid credentials");
+            }
+
+            const data = await response.json();
+            localStorage.setItem("user", JSON.stringify(data.user));
+            setIsLoggedIn(true);
+        } catch (error) {
+            console.error("Login error:", error);
+            throw error;
+        }
+    };
+
+    const logout = () => {
         localStorage.removeItem("user");
         setIsLoggedIn(false);
         window.location.href = "/login";
     };
 
-    return { isLoggedIn, logout };
+    return { isLoggedIn, login, logout };
 }
