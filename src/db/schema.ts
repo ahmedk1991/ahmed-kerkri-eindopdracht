@@ -1,6 +1,5 @@
-import {pgTable} from "drizzle-orm/pg-core/table";
-import {boolean, jsonb, timestamp, uuid, varchar} from "drizzle-orm/pg-core";
-
+import { pgTable } from "drizzle-orm/pg-core/table";
+import { boolean, jsonb, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: uuid().primaryKey().defaultRandom(),
@@ -9,8 +8,6 @@ export const users = pgTable("users", {
     password: varchar({ length: 255 }).notNull(),
     createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 });
-
-
 
 export const quiztest = pgTable("quiztest", {
     id: uuid().primaryKey().defaultRandom(),
@@ -21,7 +18,6 @@ export const quiztest = pgTable("quiztest", {
     isActive: boolean().default(true),
     createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 });
-
 
 export const testResults = pgTable("test_results", {
     id: uuid().primaryKey().defaultRandom(),

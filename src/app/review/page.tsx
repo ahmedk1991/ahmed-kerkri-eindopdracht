@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
@@ -20,9 +21,7 @@ export default function TestHistoryPage() {
     useEffect(() => {
         const getTests = async () => {
             try {
-                const res = await fetch("/api/test-results", {
-                    credentials: "include",
-                });
+                const res = await fetch("/api/test-results");
 
                 if (!res.ok) {
                     const errorData = await res.json();
@@ -51,7 +50,6 @@ export default function TestHistoryPage() {
         getTests().then(() => console.log("Tests loaded"));
     }, []);
 
-
     if (loading) return <p className="text-center text-gray-600">Loading...</p>;
     if (error) return <p className="text-center text-red-600">{error}</p>;
     if (tests.length === 0) return <p className="text-center text-gray-600">No tests found.</p>;
@@ -60,7 +58,7 @@ export default function TestHistoryPage() {
         <>
             <Header />
             <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">Your Test History</h1>
+                <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">Test History</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {tests.map((test) => (
                         <Card key={test.id}>

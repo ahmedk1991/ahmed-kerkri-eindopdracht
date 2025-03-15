@@ -11,80 +11,74 @@ interface QuestionResult {
     question: string;
     selected: string | null;
     correct: string;
-    category: string;
+    explanation: string;
 }
 
 interface TestDetail {
     id: string;
     createdAt: string;
-    score: number;
+    score: string;
     results: QuestionResult[];
 }
 
 export default function ReviewPage() {
     const router = useRouter();
-    const { id } = useParams() as { id: string };
+    const { id } = useParams<{ id: string }>();
     const [testDetail, setTestDetail] = useState<TestDetail | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!id) return;
+
         const fetchTestDetail = async () => {
             try {
-                const res = await fetch(`/api/review/${id}`);
-                if (!res.ok) throw new Error("Failed to fetch test details");
+                const res = await fetch(`/api/test-results/${id}`);
+
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    throw new Error(`Failed to fetch test details: ${errorText}`);
+                }
 
                 const data = await res.json();
-                if (data.test && Array.isArray(data.test.results)) {
-                    setTestDetail(data.test);
-                } else {
+                if (!data.test || !Array.isArray(data.test.results)) {
                     throw new Error("Invalid data format");
                 }
-            } catch (error: unknown) {
-                if (error instanceof Error) {
-                    setError(error.message);
-                } else {
-                    setError("An unexpected error occurred.");
-                }
+
+                setTestDetail(data.test);
+            } catch (error) {
+                console.error("Error fetching test details:", error);
+                setError("Failed to load test details.");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchTestDetail().then(() => console.log("Test details loaded"));
+        fetchTestDetail().then(() => console.log("Tests loaded"));
     }, [id]);
-
 
     if (loading) return <p className="text-center p-6">Loading...</p>;
     if (error) return <p className="text-center p-6 text-red-600">{error}</p>;
     if (!testDetail) return <p className="text-center p-6 text-red-600">No test details found.</p>;
 
-    const categoryScores: Record<string, { total: number; correct: number }> = {};
-    testDetail.results.forEach(({ category, selected, correct }) => {
-        if (!categoryScores[category]) categoryScores[category] = { total: 0, correct: 0 };
-        categoryScores[category].total++;
-        if (selected === correct) categoryScores[category].correct++;
-    });
 
-    const chartData = Object.keys(categoryScores).map((category) => ({
-        category,
-        score: Math.round((categoryScores[category].correct / categoryScores[category].total) * 100),
-    }));
+    const scoreDistribution = [
+        { category: "Correct", score: testDetail.results.filter((q) => q.selected === q.correct).length },
+        { category: "Incorrect", score: testDetail.results.filter((q) => q.selected !== q.correct).length }
+    ];
 
     return (
         <>
             <Header />
             <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
-                    Test Review
-                </h1>
+                <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">Test Review</h1>
                 <p className="text-center text-gray-600 mb-6">
                     Taken on: {new Date(testDetail.createdAt).toLocaleString()} | Score: {testDetail.score}%
                 </p>
 
-                {/* ✅ Fix: Only pass required props to D3CircleChart */}
+
                 <div className="flex justify-center mb-8">
-                    <D3CircleChart scoreDistribution={chartData} />
+                    <D3CircleChart scoreDistribution={scoreDistribution} />
                 </div>
 
                 <div className="space-y-4">
@@ -97,22 +91,28 @@ export default function ReviewPage() {
                                     isCorrect ? "bg-green-100 border-green-300" : "bg-red-100 border-red-300"
                                 }`}
                             >
-                                <div className="font-bold mb-2">Question {index + 1} ({q.category}):</div>
+                                <div className="font-bold mb-2">Question {index + 1}:</div>
                                 <p className="mb-2">{q.question}</p>
                                 <p className="mb-2">
                                     <span className="font-semibold">Your Answer:</span>{" "}
                                     <span className={`${isCorrect ? "text-green-600" : "text-red-600"}`}>
-                                        {q.selected || "No answer"}
-                                    </span>
+                        {q.selected || "No answer"}
+                    </span>
                                 </p>
                                 <p className="mb-2">
                                     <span className="font-semibold">Correct Answer:</span>{" "}
                                     <span className="text-green-600">{q.correct}</span>
                                 </p>
+                                {q.explanation && (
+                                    <p className="mt-2 text-sm text-gray-600">
+                                        <span className="font-semibold">Explanation:</span> {q.explanation}
+                                    </p>
+                                )}
                             </div>
                         );
                     })}
                 </div>
+
 
                 <div className="flex justify-center mt-8">
                     <button

@@ -17,7 +17,6 @@ export default function useAuth() {
             }
         }
     }, []);
-
     const login = async (email: string, password: string) => {
         try {
             const response = await fetch("/api/login", {
@@ -31,13 +30,22 @@ export default function useAuth() {
             }
 
             const data = await response.json();
+            console.log("Login response:", data);
+
+            if (!data.user || !data.user.id) {
+                throw new Error("User data is missing from response");
+            }
+
+            localStorage.setItem("user_id", data.user.id);
             localStorage.setItem("user", JSON.stringify(data.user));
+
             setIsLoggedIn(true);
         } catch (error) {
             console.error("Login error:", error);
             throw error;
         }
     };
+
 
     const logout = () => {
         localStorage.removeItem("user");

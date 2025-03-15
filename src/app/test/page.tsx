@@ -23,40 +23,41 @@ export default function TestPage() {
 
 
     const router = useRouter();
-
     const saveResults = useCallback(async (finalAnswers: Answer[]) => {
         const correctCount = finalAnswers.filter((r) => r.selected === r.correct).length;
         const totalQuestions = questions.length;
         const score = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-        const userId = localStorage.getItem("user_id"); // Ensure user ID is stored
+        const userData = localStorage.getItem("user");
+        const userId = userData ? JSON.parse(userData).id : null;
 
         if (!userId) {
             console.error("User ID is missing. Ensure the user is logged in.");
             return;
         }
 
+        const payload = { user_id: userId, results: finalAnswers, score };
+        console.log("Sending test results:", payload);
+
         try {
             const response = await fetch("/api/test-results", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({
-                    user_id: userId,
-                    results: finalAnswers,
-                    score
-                }),
+                body: JSON.stringify(payload),
             });
+
+            const responseData = await response.json();
+            console.log("📥 Server response:", responseData);
 
             if (response.ok) {
                 localStorage.setItem("testResults", JSON.stringify(finalAnswers));
                 router.push("/results");
             } else {
-                const errorData = await response.json();
-                console.error("Failed to save test results:", errorData.message);
+                console.error("Failed to save test results:", responseData.message);
             }
         } catch (error) {
-            console.error("Fetch error:", error);
+            console.error(" Fetch error:", error);
         }
     }, [questions, router]);
 
