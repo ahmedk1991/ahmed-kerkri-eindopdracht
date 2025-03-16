@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, {useState, useEffect} from "react";
+import {useParams, useRouter} from "next/navigation";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import D3CircleChart from "@/components/ui/D3CircleChart";
-import { FaRedo } from "react-icons/fa";
+import D3CategoryChart from "@/components/ui/D3CategoryChart";
+
 
 interface QuestionResult {
     question: string;
     selected: string | null;
     correct: string;
     explanation: string;
+    category: string;
 }
 
 interface TestDetail {
@@ -21,9 +23,27 @@ interface TestDetail {
     results: QuestionResult[];
 }
 
+function calculateCategoryScores(results: QuestionResult[]) {
+    const categoryMap = new Map();
+
+    results.forEach((q) => {
+        if (!categoryMap.has(q.category)) {
+            categoryMap.set(q.category, {total: 0, correct: 0});
+        }
+        const entry = categoryMap.get(q.category);
+        entry.total += 1;
+        if (q.selected === q.correct) entry.correct += 1;
+    });
+
+    return Array.from(categoryMap.entries()).map(([category, {total, correct}]) => ({
+        category,
+        score: Math.round((correct / total) * 100),
+    }));
+}
+
 export default function ReviewPage() {
     const router = useRouter();
-    const { id } = useParams<{ id: string }>();
+    const {id} = useParams<{ id: string }>();
     const [testDetail, setTestDetail] = useState<TestDetail | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -41,6 +61,7 @@ export default function ReviewPage() {
                 }
 
                 const data = await res.json();
+                console.log("API Response Data:", data);
                 if (!data.test || !Array.isArray(data.test.results)) {
                     throw new Error("Invalid data format");
                 }
@@ -57,30 +78,37 @@ export default function ReviewPage() {
         fetchTestDetail().then(() => console.log("Tests loaded"));
     }, [id]);
 
+
     if (loading) return <p className="text-center p-6">Loading...</p>;
     if (error) return <p className="text-center p-6 text-red-600">{error}</p>;
     if (!testDetail) return <p className="text-center p-6 text-red-600">No test details found.</p>;
 
-
     const scoreDistribution = [
-        { category: "Correct", score: testDetail.results.filter((q) => q.selected === q.correct).length },
-        { category: "Incorrect", score: testDetail.results.filter((q) => q.selected !== q.correct).length }
+        {category: "Correct", score: testDetail.results.filter((q) => q.selected === q.correct).length},
+        {category: "Incorrect", score: testDetail.results.filter((q) => q.selected !== q.correct).length}
     ];
+
+    const categoryScores = calculateCategoryScores(testDetail.results);
 
     return (
         <>
-            <Header />
+            <Header/>
             <div className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">Test Review</h1>
                 <p className="text-center text-gray-600 mb-6">
                     Taken on: {new Date(testDetail.createdAt).toLocaleString()} | Score: {testDetail.score}%
                 </p>
 
-
-                <div className="flex justify-center mb-8">
-                    <D3CircleChart scoreDistribution={scoreDistribution} />
+                <div className="flex flex-wrap justify-center gap-8 mb-8">
+                    <div>
+                        <h2 className="text-lg font-semibold text-center mb-2">Overall Score</h2>
+                        <D3CircleChart scoreDistribution={scoreDistribution}/>
+                    </div>
+                    <div>
+                        <h2 className="text-lg font-semibold text-center mb-2">Category Performance</h2>
+                        <D3CategoryChart categoryScores={categoryScores}/>
+                    </div>
                 </div>
-
                 <div className="space-y-4">
                     {testDetail.results.map((q, index) => {
                         const isCorrect = q.selected === q.correct;
@@ -103,6 +131,10 @@ export default function ReviewPage() {
                                     <span className="font-semibold">Correct Answer:</span>{" "}
                                     <span className="text-green-600">{q.correct}</span>
                                 </p>
+                                <p className="mb-2">
+                                    <span className="font-semibold">Category:</span>{" "}
+                                    <span className="text-blue-600">{q.category || "General"}</span>
+                                </p>
                                 {q.explanation && (
                                     <p className="mt-2 text-sm text-gray-600">
                                         <span className="font-semibold">Explanation:</span> {q.explanation}
@@ -114,16 +146,8 @@ export default function ReviewPage() {
                 </div>
 
 
-                <div className="flex justify-center mt-8">
-                    <button
-                        onClick={() => router.push("/test")}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
-                    >
-                        <FaRedo size={20} className="mr-2" /> Retake Test
-                    </button>
-                </div>
             </div>
-            <Footer />
+            <Footer/>
         </>
     );
 }

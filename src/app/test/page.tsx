@@ -9,20 +9,19 @@ interface Answer {
     question: string;
     selected: string | null;
     correct: string;
+    category: string;
+    explanation: string;
 }
 
 export default function TestPage() {
-
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [answers, setAnswers] = useState<Answer[]>([]);
     const [timeLeft, setTimeLeft] = useState(30);
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
-
-
-
     const router = useRouter();
+
     const saveResults = useCallback(async (finalAnswers: Answer[]) => {
         const correctCount = finalAnswers.filter((r) => r.selected === r.correct).length;
         const totalQuestions = questions.length;
@@ -37,7 +36,7 @@ export default function TestPage() {
         }
 
         const payload = { user_id: userId, results: finalAnswers, score };
-        console.log("Sending test results:", payload);
+        console.log(" Sending test results:", payload);
 
         try {
             const response = await fetch("/api/test-results", {
@@ -48,7 +47,7 @@ export default function TestPage() {
             });
 
             const responseData = await response.json();
-            console.log("📥 Server response:", responseData);
+            console.log("Server response:", responseData);
 
             if (response.ok) {
                 localStorage.setItem("testResults", JSON.stringify(finalAnswers));
@@ -57,18 +56,19 @@ export default function TestPage() {
                 console.error("Failed to save test results:", responseData.message);
             }
         } catch (error) {
-            console.error(" Fetch error:", error);
+            console.error("Fetch error:", error);
         }
     }, [questions, router]);
 
-
-
-
     const goToNextQuestion = useCallback(async () => {
+        const currentQ = questions[currentQuestion];
+
         const newAnswer: Answer = {
-            question: questions[currentQuestion].text,
+            question: currentQ.text,
             selected: selectedAnswer,
-            correct: questions[currentQuestion].correctAnswer,
+            correct: currentQ.correctAnswer,
+            category: currentQ.category || "General",
+            explanation: currentQ.explanation || "No explanation provided.",
         };
 
         const updatedAnswers = [...answers, newAnswer];

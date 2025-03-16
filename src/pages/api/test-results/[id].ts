@@ -17,7 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(404).json({ message: "Test not found" });
         }
 
-        return res.status(200).json({ test });
+        console.log(" Retrieved test data:", test);
+
+        const processedResults = test.results.map((q) => ({
+            ...q,
+            category: q.category ?? "General",
+            explanation: q.explanation ?? "No explanation provided.",
+        }));
+
+        return res.status(200).json({ test: { ...test, results: processedResults } });
     } catch (error) {
         console.error("Database error:", error);
         return res.status(500).json({ message: "Internal server error" });
