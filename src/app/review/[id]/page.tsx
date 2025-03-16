@@ -43,7 +43,8 @@ function calculateCategoryScores(results: QuestionResult[]) {
 
 export default function ReviewPage() {
     const router = useRouter();
-    const {id} = useParams<{ id: string }>();
+    const params = useParams();
+    const id = params?.id as string | undefined;
     const [testDetail, setTestDetail] = useState<TestDetail | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);

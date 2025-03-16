@@ -8,34 +8,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const { user_id, results, score } = req.body;
 
             if (!user_id || !results || typeof score !== "number") {
-                console.log("Invalid request data:", req.body);
+                console.log("Invalid request data received:", req.body);
                 return res.status(400).json({ message: "Invalid request data" });
             }
 
-            const enrichedResults = results.map((r) => ({
+            const enrichedResults = results.map((r: any) => ({
                 question: r.question,
                 selected: r.selected,
                 correct: r.correct,
-                category: r.category ?? "General",  // Ensure category is stored
-                explanation: r.explanation ?? "No explanation provided.",  // Ensure explanation is stored
+                explanation: r.explanation || "No explanation provided.",
+                category: r.category || "General",
             }));
-
-            console.log("📥 Storing in DB:", enrichedResults); // Debugging
 
             const [newTest] = await db
                 .insert(testResults)
                 .values({
-                    user_id,
+                    user_id: String(user_id),
                     results: enrichedResults,
-                    score,
+                    score: String(score),
                     createdAt: new Date(),
                 })
                 .returning();
 
-            console.log("Test saved with ID:", newTest.id);
+            console.log("Test results saved successfully with ID:", newTest.id);
             return res.status(201).json({ message: "Test results saved", testId: newTest.id });
         } catch (error) {
-            console.error(" Database Error:", error);
+            console.error("Database Error:", error);
             return res.status(500).json({ message: "Internal server error" });
         }
     }
@@ -43,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "GET") {
         try {
             const results = await db.select().from(testResults);
-            console.log(" Retrieved test results:", results);
+            console.log("Retrieved test results:", results);
             return res.status(200).json({ tests: results });
         } catch (error) {
             console.error("Database Error:", error);

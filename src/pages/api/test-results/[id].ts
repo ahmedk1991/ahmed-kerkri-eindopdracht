@@ -3,6 +3,14 @@ import { db } from "@/db";
 import { testResults } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+interface QuestionResult {
+    question: string;
+    selected: string | null;
+    correct: string;
+    category: string;
+    explanation: string;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { id } = req.query;
 
@@ -19,7 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         console.log(" Retrieved test data:", test);
 
-        const processedResults = test.results.map((q) => ({
+        if (!Array.isArray(test.results)) {
+            throw new Error("Invalid test results format");
+        }
+
+        const processedResults = (test.results as QuestionResult[]).map((q) => ({
             ...q,
             category: q.category ?? "General",
             explanation: q.explanation ?? "No explanation provided.",
