@@ -1,8 +1,12 @@
 "use client";
 import Image from "next/image";
+import Footer from "@/components/ui/Footer";
+import Header from "@/components/ui/Header";
 
 export default function AboutPage() {
     return (
+        <>
+            <Header/>
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6 py-12">
             <div className="max-w-4xl text-center">
                 <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
@@ -106,5 +110,7 @@ export default function AboutPage() {
                 </a>
             </div>
         </div>
+            <Footer/>
+        </>
     );
 }
