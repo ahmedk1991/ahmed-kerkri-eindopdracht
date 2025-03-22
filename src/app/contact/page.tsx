@@ -95,7 +95,7 @@ export default function ContactPage() {
 
                     <div className="flex justify-center items-center max-w-[400px]">
                         <Image
-                            src="/images/contact-us.jpg"
+                            src="/images/contact-us.webp"
                             alt="Contact Us"
                             width={400}
                             height={300}
