@@ -98,7 +98,7 @@ export default function AboutPage() {
                     <h2 className="text-3xl font-bold text-blue-400">Why Take Our Test?</h2>
                     <p className="mt-4 text-lg text-gray-300">
                         Unlike other tests that charge high fees, our IQ test is <b>completely free</b> and provides a full report.
-                        Whether you're curious about your intelligence level or preparing for an assessment, our test is the perfect choice.
+                        Whether you&apos;re  curious about your intelligence level or preparing for an assessment, our test is the perfect choice.
                     </p>
                     <a
                         href="/test"
