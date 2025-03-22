@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Footer from "@/components/ui/Footer";
+import Header from "@/components/ui/Header";
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -36,6 +38,8 @@ export default function ContactPage() {
     };
 
     return (
+        <>
+            <Header/>
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-12">
             <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
                 Get in Touch
@@ -97,10 +101,12 @@ export default function ContactPage() {
                     </form>
                 </div>
 
-                <div className="flex justify-center">
-                    <Image src="/images/contact.png" alt="Contact Us" width={400} height={300} className="rounded-md" />
+                <div className="flex justify-center items-center max-w-[400px] flex-shrink-0">
+                    <Image src="/images/contact-us.jpg" alt="Contact Us" width={400} height={300} className="rounded-md" />
                 </div>
             </div>
         </div>
+            <Footer/>
+        </>
     );
 }

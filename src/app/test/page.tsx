@@ -17,7 +17,7 @@ export default function TestPage() {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [answers, setAnswers] = useState<Answer[]>([]);
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(60);
 
     const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
     const router = useRouter();
@@ -77,7 +77,7 @@ export default function TestPage() {
         if (currentQuestion < questions.length - 1) {
             setCurrentQuestion((prev) => prev + 1);
             setSelectedAnswer(null);
-            setTimeLeft(30);
+            setTimeLeft(60);
         } else {
             await saveResults(updatedAnswers);
         }
