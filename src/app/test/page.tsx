@@ -101,17 +101,21 @@ export default function TestPage() {
             <div className="absolute top-5 right-10 text-lg font-semibold bg-gray-200 px-4 py-2 rounded-md">
                 ⏳ {timeLeft}s
             </div>
+
             <div className="w-[70%] mt-10">
                 <ProgressBar value={progressPercentage} />
             </div>
+
             <p className="mt-4 text-lg text-gray-600">
                 Question {currentQuestion + 1} / {questions.length}
             </p>
+
             <div className="mt-6 p-6 bg-white shadow-md rounded-lg w-full max-w-2xl text-center">
                 <h2 className="text-2xl font-bold text-gray-800">
                     {questions[currentQuestion].text}
                 </h2>
             </div>
+
             <div className="mt-6 grid grid-cols-2 gap-4 w-full max-w-lg">
                 {questions[currentQuestion].options.map((option, index) => (
                     <button
@@ -125,9 +129,12 @@ export default function TestPage() {
                     </button>
                 ))}
             </div>
+
             <div className="mt-8 flex justify-between w-full max-w-lg">
                 <button
-                    onClick={() => goToNextQuestion().catch((error) => console.error("Error in goToNextQuestion:", error))}
+                    onClick={() => goToNextQuestion().catch((error) =>
+                        console.error("Error in goToNextQuestion:", error)
+                    )}
                     className="px-6 py-2 text-lg font-semibold border rounded-md bg-blue-500 text-white hover:bg-blue-600"
                 >
                     Next
@@ -135,4 +142,5 @@ export default function TestPage() {
             </div>
         </div>
     );
+
 }

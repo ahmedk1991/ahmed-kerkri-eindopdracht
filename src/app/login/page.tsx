@@ -26,9 +26,10 @@ export default function LoginPage() {
     };
 
     return (
-        <>
+        <div className="flex flex-col min-h-screen">
             <Header />
-            <div className="flex flex-col items-center justify-center bg-gray-100 py-10 min-h-[60vh]">
+
+            <main className="flex-grow flex items-center justify-center bg-gray-100 py-10">
                 <div className="w-full max-w-sm bg-white shadow rounded p-6">
                     <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -55,14 +56,16 @@ export default function LoginPage() {
                         {error && <div className="text-red-500 text-xs text-center">{error}</div>}
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 font-semibold"
                         >
                             Login
                         </button>
                     </form>
                 </div>
-            </div>
+            </main>
+
             <Footer />
-        </>
+        </div>
     );
+
 }

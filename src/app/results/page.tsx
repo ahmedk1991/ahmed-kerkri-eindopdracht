@@ -52,19 +52,17 @@ export default function ResultsPage() {
     };
 
     return (
-        <>
-            <Header/>
-            <div className="min-h-screen flex flex-col items-center px-6">
+        <div className="flex flex-col min-h-screen">
+            <Header />
 
-
+            <main className="flex-grow flex flex-col items-center px-6">
                 <div className="w-full max-w-2xl bg-white shadow-md p-6 rounded-md text-center m-2">
                     <h2 className="text-4xl font-bold text-gray-800">Your IQ Score: {iqScore}</h2>
                     <p className="text-lg text-gray-700 mt-2">Your IQ score is within the following range:</p>
                     <div className="mt-4 w-full">
-                        <BellCurve iqScore={iqScore}/>
+                        <BellCurve iqScore={iqScore} />
                     </div>
                 </div>
-
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl mt-8">
                     <div className={`shadow-md rounded-lg p-6 text-center ${getScoreClass(0, 89)}`}>
@@ -85,28 +83,28 @@ export default function ResultsPage() {
                     </div>
                 </div>
 
-
                 <div className="mt-8 w-full max-w-2xl bg-white shadow-md p-6 rounded-md text-center">
                     <h3 className="text-2xl font-bold text-gray-800">Understanding Your Score</h3>
                     <p className="text-lg text-gray-700 mt-2">{scoreAnalysis}</p>
                 </div>
-
 
                 <div className="flex items-center gap-4 mt-8 m-5">
                     <button
                         onClick={() => router.push("/test")}
                         className="mt-6 px-6 py-3 flex items-center gap-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                     >
-                        <FaRedo size={20}/> Retake Test
+                        <FaRedo size={20} /> Retake Test
                     </button>
                     <div className="flex gap-3 text-gray-600">
-                        <a href="#" className="hover:text-blue-600"><FaFacebook size={28}/></a>
-                        <a href="#" className="hover:text-blue-400"><FaTwitter size={28}/></a>
-                        <a href="#" className="hover:text-blue-700"><FaLinkedin size={28}/></a>
+                        <a href="#" className="hover:text-blue-600"><FaFacebook size={28} /></a>
+                        <a href="#" className="hover:text-blue-400"><FaTwitter size={28} /></a>
+                        <a href="#" className="hover:text-blue-700"><FaLinkedin size={28} /></a>
                     </div>
                 </div>
-            </div>
-            <Footer/>
-        </>
+            </main>
+
+            <Footer />
+        </div>
     );
+
 }
