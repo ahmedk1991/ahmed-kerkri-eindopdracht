@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState, useEffect} from "react";
-import {useParams, useRouter} from "next/navigation";
+import {useParams} from "next/navigation";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import D3CircleChart from "@/components/ui/D3CircleChart";

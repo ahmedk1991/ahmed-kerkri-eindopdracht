@@ -28,7 +28,6 @@ export default function ContactPage() {
             body: JSON.stringify(formData),
         });
 
-        const data = await response.json();
         if (response.ok) {
             setStatus("Message Sent!");
             setFormData({ name: "", email: "", message: "" });
