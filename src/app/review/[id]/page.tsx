@@ -24,7 +24,7 @@ interface TestDetail {
 }
 
 function calculateCategoryScores(results: QuestionResult[]) {
-    const categoryMap = new Map();
+    const  categoryMap = new Map();
 
     results.forEach((q) => {
         if (!categoryMap.has(q.category)) {
