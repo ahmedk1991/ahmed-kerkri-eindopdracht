@@ -81,7 +81,7 @@ export default function ReviewPage() {
                 margin: 0,
                 filename: "iq-test-review.pdf",
                 image: { type: "jpeg", quality: 0.98 },
-                html2canvas: {
+                 html2canvas: {
                     scale: 1,
                     useCORS: true,
                     allowTaint: true
