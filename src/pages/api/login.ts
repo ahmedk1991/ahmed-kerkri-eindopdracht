@@ -35,7 +35,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             path: "/",
         }));
 
-        return res.status(200).json({ user: { id: user.id, email: user.email, name: user.username } });
+        return res.status(200).json({
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.username,
+                createdAt: user.createdAt,
+            }
+        });
     } catch (error) {
         console.error("Login Error:", error);
         return res.status(500).json({ message: "Internal server error" });
