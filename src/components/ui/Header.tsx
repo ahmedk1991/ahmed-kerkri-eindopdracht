@@ -6,7 +6,9 @@ import useAuth from "@/hooks/useAuth";
 
 const Header = () => {
     const router = useRouter();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, user } = useAuth();
+    console.log(" Auth Debug - isLoggedIn:", isLoggedIn, "user:", JSON.stringify(user, null, 2));
+
 
     return (
         <header className="bg-white shadow-md">
@@ -28,6 +30,16 @@ const Header = () => {
                     <button onClick={() => router.push("/contact")} className="text-gray-700 hover:text-blue-600">
                         Contact
                     </button>
+
+                    {isLoggedIn && user?.isAdmin && (
+                        <button
+                            onClick={() => router.push("/admin")}
+                            className="px-4 py-2 bg-blue-300 text-white rounded-md hover:bg-blue-400"
+                        >
+                            Admin Dashboard
+                        </button>
+                    )}
+
                     {isLoggedIn ? (
                         <>
                             <button

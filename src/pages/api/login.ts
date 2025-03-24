@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!isValidPassword) return res.status(401).json({ message: "Invalid credentials" });
 
 
-        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({ id: user.id, email: user.email,isAdmin: user.isAdmin,name:user.username}, process.env.JWT_SECRET!, {
             expiresIn: "7d",
         });
 
@@ -41,6 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 email: user.email,
                 name: user.username,
                 createdAt: user.createdAt,
+                isAdmin: user.isAdmin,
             }
         });
     } catch (error) {

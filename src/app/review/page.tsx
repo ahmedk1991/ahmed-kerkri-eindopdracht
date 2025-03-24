@@ -16,6 +16,7 @@ interface TestSummary {
 interface UserInfo {
     email: string;
     createdAt: string;
+    username: string;
 }
 
 export default function TestHistoryPage() {
@@ -38,9 +39,21 @@ export default function TestHistoryPage() {
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+
+            fetch(`/api/test-results?userId=${parsedUser.id}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setTests(data.tests || []);
+                })
+                .catch((err) => setError(err.message))
+                .finally(() => setLoading(false));
+        } else {
+            setLoading(false);
         }
     }, []);
+
 
 
     const averageScore = tests.length
@@ -67,7 +80,7 @@ export default function TestHistoryPage() {
                                 className="rounded-full object-cover"
                             />
                             <div>
-                                <h2 className="text-xl font-bold">{user.email}</h2>
+                                <h2 className="text-xl font-bold">{user.username}</h2>
                                 <p className="text-sm text-gray-500">
                                     Member since {new Date(user.createdAt).toLocaleDateString()}
                                 </p>
