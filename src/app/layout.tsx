@@ -10,6 +10,8 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 export const metadata: Metadata = {
     title: "IQ Test App",
     description: "Take an IQ test and get instant results",
+    manifest: "/manifest.json",
+    themeColor: "#FFFFFF"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

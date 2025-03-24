@@ -1,7 +1,14 @@
-const dotenv = require('dotenv');
+import withSerwistInit from "@serwist/next";
+import dotenv from "dotenv";
+
 dotenv.config();
 
-module.exports = {
+const withSerwist = withSerwistInit({
+    swSrc: "src/app/sw.ts",
+    swDest: "public/sw.js",
+});
+
+const nextConfig = {
     env: {
         NEXT_PUBLIC_DATABASE_URL: process.env.NEXT_PUBLIC_DATABASE_URL,
         NEXTAUTH_URL: process.env.NEXTAUTH_URL,
@@ -9,3 +16,5 @@ module.exports = {
         JWT_SECRET: process.env.JWT_SECRET,
     },
 };
+
+export default withSerwist(nextConfig);
