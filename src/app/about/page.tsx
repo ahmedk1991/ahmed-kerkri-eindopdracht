@@ -19,14 +19,14 @@ export default function AboutPage() {
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl items-center">
-                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
+                    <div className="order-1 md:order-none bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
                         <h2 className="text-2xl font-bold">Fast & Reliable</h2>
                         <p className="text-gray-400 mt-2">
                             Our test takes just <b>20 minutes</b> and is optimized for accuracy, ensuring a smooth experience.
                             You will receive instant results and feedback immediately after completing the test.
                         </p>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="order-2 md:order-none flex justify-center">
                         <Image
                             src="/images/20min.webp"
                             alt="Fast Test"
@@ -38,7 +38,14 @@ export default function AboutPage() {
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl items-center">
-                    <div className="flex justify-center md:order-1">
+                    <div className="order-1 md:order-2 bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
+                        <h2 className="text-2xl font-bold">Compare with Peers</h2>
+                        <p className="text-gray-400 mt-2">
+                            See how your IQ compares to others, including professionals in different fields.
+                            Gain insights into your cognitive strengths and benchmark your performance against others.
+                        </p>
+                    </div>
+                    <div className="order-2 md:order-1 flex justify-center">
                         <Image
                             src="/images/iq-test-1.webp"
                             alt="Compare IQ"
@@ -47,24 +54,17 @@ export default function AboutPage() {
                             className="rounded-md object-contain max-w-full hover:scale-110 transition-transform"
                         />
                     </div>
-                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform md:order-2">
-                        <h2 className="text-2xl font-bold">Compare with Peers</h2>
-                        <p className="text-gray-400 mt-2">
-                            See how your IQ compares to others, including professionals in different fields.
-                            Gain insights into your cognitive strengths and benchmark your performance against others.
-                        </p>
-                    </div>
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl items-center">
-                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
+                    <div className="order-1 md:order-none bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
                         <h2 className="text-2xl font-bold">Retake Anytime</h2>
                         <p className="text-gray-400 mt-2">
                             Each test is unique, so you can retake it as many times as needed to achieve the best result.
                             Our system ensures that every test presents new challenges.
                         </p>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="order-2 md:order-none flex justify-center">
                         <Image
                             src="/images/iq-test-2.webp"
                             alt="Retake Test"
@@ -76,7 +76,14 @@ export default function AboutPage() {
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl items-center">
-                    <div className="flex justify-center md:order-1">
+                    <div className="order-1 md:order-2 bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
+                        <h2 className="text-2xl font-bold">Data-Driven Precision</h2>
+                        <p className="text-gray-400 mt-2">
+                            Our test is backed by a vast database, ensuring accuracy and reliable scoring.
+                            We use advanced algorithms to analyze your performance in real-time.
+                        </p>
+                    </div>
+                    <div className="order-2 md:order-1 flex justify-center">
                         <Image
                             src="/images/precision.webp"
                             alt="Data Precision"
@@ -85,20 +92,13 @@ export default function AboutPage() {
                             className="rounded-md object-contain max-w-full hover:scale-110 transition-transform"
                         />
                     </div>
-                    <div className="bg-gray-800 p-6 rounded-xl shadow-lg text-center hover:scale-105 transition-transform md:order-2">
-                        <h2 className="text-2xl font-bold">Data-Driven Precision</h2>
-                        <p className="text-gray-400 mt-2">
-                            Our test is backed by a vast database, ensuring accuracy and reliable scoring.
-                            We use advanced algorithms to analyze your performance in real-time.
-                        </p>
-                    </div>
                 </div>
 
                 <div className="mt-16 max-w-3xl text-center">
                     <h2 className="text-3xl font-bold text-blue-400">Why Take Our Test?</h2>
                     <p className="mt-4 text-lg text-gray-300">
                         Unlike other tests that charge high fees, our IQ test is <b>completely free</b> and provides a full report.
-                        Whether you&apos;re  curious about your intelligence level or preparing for an assessment, our test is the perfect choice.
+                        Whether you&apos;re curious about your intelligence level or preparing for an assessment, our test is the perfect choice.
                     </p>
                     <a
                         href="/test"
