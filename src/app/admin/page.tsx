@@ -66,7 +66,7 @@ export default function AdminPage() {
                         <div key={user.id} className="border-b">
                             <div className="flex justify-between items-center p-4 bg-gray-100">
                                 <div>
-about                                     <p className="font-semibold">{user.username} </p>
+                                 <p className="font-semibold">{user.username} </p>
                                     <p className="text-sm text-gray-500">Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
                                 </div>
                                 <div className="flex gap-2">
