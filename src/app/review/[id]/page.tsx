@@ -109,7 +109,7 @@ export default function ReviewPage() {
                 <div className="flex justify-center gap-4 mb-6">
                     <button
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                        onClick={() => router.push("/test-history")}
+                        onClick={() => router.push("/admin")}
                     >
                         ⬅ Back to History
                     </button>
