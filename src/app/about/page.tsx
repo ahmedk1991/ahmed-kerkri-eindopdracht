@@ -1,9 +1,23 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
 
 export default function AboutPage() {
+    const router = useRouter();
+
+    const handleClick = () => {
+        const storedUser = localStorage.getItem("user");
+
+        if (storedUser) {
+            router.push("/test");
+        } else {
+            router.push("/login");
+        }
+    };
+
     return (
         <>
             <Header />
@@ -100,12 +114,12 @@ export default function AboutPage() {
                         Unlike other tests that charge high fees, our IQ test is <b>completely free</b> and provides a full report.
                         Whether you&apos;re curious about your intelligence level or preparing for an assessment, our test is the perfect choice.
                     </p>
-                    <a
-                        href="/test"
+                    <button
+                        onClick={handleClick}
                         className="mt-6 inline-block px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-200 font-bold transition-all hover:scale-105"
                     >
                         Start Your Free IQ Test
-                    </a>
+                    </button>
                 </div>
             </div>
             <Footer />
